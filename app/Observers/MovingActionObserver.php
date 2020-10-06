@@ -23,8 +23,15 @@ class MovingActionObserver
     {
         $model->load('user');
 
-        if ($model->user && $model->isDirty('price') && $model->getOriginal('price') == null) {
-            $model->user->notify(new PriceChangeNotification($model));
+        if ($model->user) {
+            if ($model->isDirty('price') && $model->getOriginal('price') == null) {
+                $model->user->notify(new PriceChangeNotification($model));
+            } elseif ($model->isDirty('paid_at') && $model->getOriginal('paid_at') == null) {
+                $users = \App\Models\User::whereHas('roles', function ($q) {
+                    return $q->where('title', 'Admin');
+                })->get();
+                Notification::send($users, new MovingPaidNotification($model));
+            }
         }
     }
 }

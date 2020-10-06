@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyMovingRequest;
 use App\Http\Requests\StoreMovingRequest;
+use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdateMovingRequest;
 use App\Models\Moving;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Stripe\SetupIntent;
 use Symfony\Component\HttpFoundation\Response;
 
 class MovingsController extends Controller
@@ -73,7 +75,9 @@ class MovingsController extends Controller
 
         $moving->load('user');
 
-        return view('admin.movings.show', compact('moving'));
+        $intent = auth()->user()->createSetupIntent();
+
+        return view('admin.movings.show', compact('moving', 'intent'));
     }
 
     public function destroy(Moving $moving)
@@ -90,5 +94,21 @@ class MovingsController extends Controller
         Moving::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function pay(StorePaymentRequest $request, Moving $moving)
+    {
+        $moving->load('user');
+        $paymentMethod = $request->input('payment_method');
+
+        $moving->user->createOrGetStripeCustomer();
+        $moving->user->updateDefaultPaymentMethod($paymentMethod);
+        $moving->user->charge($moving->price * 100, $paymentMethod);
+
+        $moving->update([
+            'paid_at' => now()
+        ]);
+
+        return redirect()->back()->with('message', 'The moving has been paid successfully');
     }
 }

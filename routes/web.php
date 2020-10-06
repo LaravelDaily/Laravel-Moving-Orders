@@ -28,6 +28,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('users', 'UsersController');
 
     // Movings
+    Route::post('movings/{moving}/pay', 'MovingsController@pay')->name('movings.pay');
     Route::delete('movings/destroy', 'MovingsController@massDestroy')->name('movings.massDestroy');
     Route::resource('movings', 'MovingsController');
 });
