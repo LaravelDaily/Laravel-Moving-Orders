@@ -101,13 +101,17 @@ class MovingsController extends Controller
         $moving->load('user');
         $paymentMethod = $request->input('payment_method');
 
-        $moving->user->createOrGetStripeCustomer();
-        $moving->user->updateDefaultPaymentMethod($paymentMethod);
-        $moving->user->charge($moving->price * 100, $paymentMethod);
+        try {
+            $moving->user->createOrGetStripeCustomer();
+            $moving->user->updateDefaultPaymentMethod($paymentMethod);
+            $moving->user->charge($moving->price * 100, $paymentMethod);
 
-        $moving->update([
-            'paid_at' => now()
-        ]);
+            $moving->update([
+                'paid_at' => now()
+            ]);
+        } catch (\Exception $exception) {
+            return redirect()->back()->withErrors([$exception->getMessage()]);
+        }
 
         return redirect()->back()->with('message', 'The moving has been paid successfully');
     }
