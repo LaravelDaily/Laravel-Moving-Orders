@@ -92,4 +92,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function movings()
+    {
+        return $this->hasMany(Moving::class);
+    }
 }

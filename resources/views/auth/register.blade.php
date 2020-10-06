@@ -16,10 +16,69 @@
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
+                                <i class="fas fa-box fa-fw"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="moving_from" class="form-control{{ $errors->has('moving_from') ? ' is-invalid' : '' }}" required autofocus placeholder="{{ trans('cruds.moving.fields.moving_from') }}" value="{{ old('moving_from', null) }}">
+                        @if($errors->has('moving_from'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('moving_from') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-box fa-fw"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="moving_to" class="form-control{{ $errors->has('moving_to') ? ' is-invalid' : '' }}" required placeholder="{{ trans('cruds.moving.fields.moving_to') }}" value="{{ old('moving_to', null) }}">
+                        @if($errors->has('moving_to'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('moving_to') }}
+                            </div>
+                        @endif
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-box fa-fw"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="moving_date" class="form-control date{{ $errors->has('moving_date') ? ' is-invalid' : '' }}" required placeholder="{{ trans('cruds.moving.fields.moving_date') }}" value="{{ old('moving_date', null) }}">
+                        @if($errors->has('moving_date'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('moving_date') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-box fa-fw"></i>
+                            </span>
+                        </div>
+                        <textarea name="comments" class="form-control date{{ $errors->has('moving_date') ? ' is-invalid' : '' }}" placeholder="{{ trans('cruds.moving.fields.comments') }}">{{ old('comments', null) }}</textarea>
+                        @if($errors->has('comments'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('moving_date') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <hr />
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
                                 <i class="fa fa-user fa-fw"></i>
                             </span>
                         </div>
-                        <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" required autofocus placeholder="{{ trans('global.user_name') }}" value="{{ old('name', null) }}">
+                        <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" required placeholder="{{ trans('global.user_name') }}" value="{{ old('name', null) }}">
                         @if($errors->has('name'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('name') }}
