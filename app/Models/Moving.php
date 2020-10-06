@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\MovingScopeTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use \DateTimeInterface;
 
 class Moving extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, MovingScopeTrait;
 
     public $table = 'movings';
 
