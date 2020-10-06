@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Str;
 
 class DataChangeEmailNotification extends Notification
 {
@@ -33,7 +34,10 @@ class DataChangeEmailNotification extends Notification
             ->greeting('Hi,')
             ->line('we would like to inform you that entry has been ' . $this->data['action'] . ' in ' . $this->data['model_name'])
             ->line('Please log in to see more information.')
-            ->action(config('app.name'), config('app.url'))
+            ->action(
+                'Edit A ' . $this->data['model_name'],
+                route('admin.' . lcfirst(Str::plural($this->data['model_name'])) . '.edit', $this->data['id'])
+            )
             ->line('Thank you')
             ->line(config('app.name') . ' Team')
             ->salutation(' ');

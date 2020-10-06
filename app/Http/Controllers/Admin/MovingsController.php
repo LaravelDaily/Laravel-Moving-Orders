@@ -34,7 +34,7 @@ class MovingsController extends Controller
 
     public function store(StoreMovingRequest $request)
     {
-        $moving = Moving::create($request->all());
+        $moving = auth()->user()->create($request->validated());
 
         return redirect()->route('admin.movings.index');
     }
@@ -52,7 +52,17 @@ class MovingsController extends Controller
 
     public function update(UpdateMovingRequest $request, Moving $moving)
     {
-        $moving->update($request->all());
+        $validatedData = $request->validated();
+
+        if (auth()->user()->is_admin) {
+            $price = $request->validate([
+                'price' => 'required', 'numeric'
+            ]);
+
+            $validatedData = array_merge($validatedData, $price);
+        }
+
+        $moving->update($validatedData);
 
         return redirect()->route('admin.movings.index');
     }

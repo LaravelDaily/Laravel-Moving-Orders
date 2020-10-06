@@ -17,10 +17,6 @@ class UpdateMovingRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'     => [
-                'required',
-                'integer',
-            ],
             'moving_from' => [
                 'string',
                 'required',
@@ -32,6 +28,10 @@ class UpdateMovingRequest extends FormRequest
             'moving_date' => [
                 'required',
                 'date_format:' . config('panel.date_format'),
+            ],
+            'comments'    => [
+                'nullable',
+                'string',
             ],
         ];
     }

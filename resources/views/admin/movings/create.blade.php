@@ -10,20 +10,6 @@
         <form method="POST" action="{{ route("admin.movings.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.moving.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
-                    @foreach($users as $id => $user)
-                        <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('user') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.moving.fields.user_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="moving_from">{{ trans('cruds.moving.fields.moving_from') }}</label>
                 <input class="form-control {{ $errors->has('moving_from') ? 'is-invalid' : '' }}" type="text" name="moving_from" id="moving_from" value="{{ old('moving_from', '') }}" required>
                 @if($errors->has('moving_from'))
@@ -62,16 +48,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.moving.fields.comments_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="price">{{ trans('cruds.moving.fields.price') }}</label>
-                <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price" id="price" value="{{ old('price', '') }}" step="0.01">
-                @if($errors->has('price'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('price') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.moving.fields.price_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
